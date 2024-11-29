@@ -1,10 +1,7 @@
 import  OpenAI  from 'openai';
-import dotenv from 'dotenv';
-
 
 export const ChatAI = async (req, res) => {
 
-    dotenv.config();
     const apiKey = process.env.OPENAI_API_KEY;
 
     const { newMessage } = req.body;

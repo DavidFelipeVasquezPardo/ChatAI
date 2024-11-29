@@ -111,7 +111,7 @@ export function Chat() {
         </button>
 
         {isSidebarOpen && (
-          <div className="p-6 max-w-96 h-[500px] overflow-y-auto">
+          <div className="p-6 max-w-96 overflow-y-auto">
             <p className="text-lg font-semibold">Bienvenido</p>
             <p className="text-sm text-gray-400">
               Gestiona tus chats y opciones aquí.
