@@ -14,115 +14,113 @@ datasource db {
 }
 
 model informacionUsuario {
-  idUsuario                     String        @id @unique @default(uuid())
-  nombre                        String
-  apellido                      String?
-  correo                        String
-  telefonoPersonal              String
-  telefonoFamiliar              String
+  idUsuario        String  @id @unique @default(uuid())
+  nombre           String
+  apellido         String?
+  correo           String
+  telefonoPersonal String
+  telefonoFamiliar String
 
-  credenciales                   credencial[]               @relation("conexionCredencial")
-  informacionPersonal            informacionPersonal[]      @relation("conexionInformacionPersonal")
-  condicionesVivienda            condicionesvivienda[]      @relation("conexionCondicionesVivienda")
-  educacion                      educacion[]                @relation("conexionEducacion")
-  situcionlaboral                situacionlaboral[]         @relation("conexionSituacionLaboral")
-  Salud                          salud[]                    @relation("conexionSalud")
+  credenciales        credencial[]          @relation("conexionCredencial")
+  informacionPersonal informacionPersonal[] @relation("conexionInformacionPersonal")
+  condicionesVivienda condicionesvivienda[] @relation("conexionCondicionesVivienda")
+  educacion           educacion[]           @relation("conexionEducacion")
+  situcionlaboral     situacionlaboral[]    @relation("conexionSituacionLaboral")
+  Salud               salud[]               @relation("conexionSalud")
 
   @@map("informacion_usuario")
 }
 
 model credencial {
-  idCredencial         String @id @unique @default(uuid())
-  idUsuario            String
-  usuario              String
-  contrasena           String
-  rol                  String         @default("user")
+  idCredencial String @id @unique @default(uuid())
+  idUsuario    String
+  usuario      String
+  contrasena   String
+  rol          String @default("user")
 
-  usuarioInformacion   informacionUsuario  @relation(fields: [idUsuario], references: [idUsuario], name: "conexionCredencial")
+  usuarioInformacion informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionCredencial")
 
   @@map("credencial")
 }
 
 model informacionPersonal {
-  idinformacionPersonal     String      @id @unique @default(uuid())
-  idUsuario                 String
+  idinformacionPersonal String @id @unique @default(uuid())
+  idUsuario             String
 
-  edad                      Int
-  genero                    String
-  estadocivil               String
-  hijosnum                  Int
-  personascargo             Int
-  vivienda                  String
-  localidad                 String
-  tipovivienda              String
-  familiaresnum             Int
-  estrato                   Int
-  etnico                    String 
+  edad          Int
+  genero        String
+  estadocivil   String
+  hijosnum      Int
+  personascargo Int
+  vivienda      String
+  localidad     String
+  tipovivienda  String
+  familiaresnum Int
+  estrato       Int
+  etnico        String
 
-  usuarioInformacionPersonal    informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionInformacionPersonal")
+  usuarioInformacionPersonal informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionInformacionPersonal")
 
   @@map("informacionPersonal")
 }
 
 model condicionesvivienda {
-  idcondicionesvivienda     String      @id @unique @default(uuid())
-  idUsuario                 String
-  hacinamiento              String
-  violencia                 String
-  servicios                 Json
-  problemas                 Json
-  tipozona                  String
+  idcondicionesvivienda String @id @unique @default(uuid())
+  idUsuario             String
+  hacinamiento          String
+  violencia             String
+  servicios             Json
+  problemas             Json
+  tipozona              String
 
-  usuarioCondicionesVivienda    informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionCondicionesVivienda")
+  usuarioCondicionesVivienda informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionCondicionesVivienda")
 
   @@map("condicionesvivienda")
 }
 
 model educacion {
-  ideducacion               String      @id @unique @default(uuid())
-  idUsuario                 String
-  tipocolegio               String
-  nivelescolaridad          String
-  carrera                   String
-  periodo                   String
-  motivo                    String
-  matedificulta             Json
-  nivelingles               String
+  ideducacion      String @id @unique @default(uuid())
+  idUsuario        String
+  tipocolegio      String
+  nivelescolaridad String
+  carrera          String
+  periodo          String
+  motivo           String
+  matedificulta    Json
+  nivelingles      String
 
-  usuarioeducacion    informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionEducacion")
+  usuarioeducacion informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionEducacion")
 
   @@map("educacion")
 }
 
 model situacionlaboral {
+  idsituacionlaboral String @id @unique @default(uuid())
+  idUsuario          String
+  situacion          String
+  ingresos           String
+  sector             String
+  jornada            String
+  ascenso            String
 
-  idsituacionlaboral        String      @id @unique @default(uuid())
-  idUsuario                 String
-  situacion                 String
-  ingresos                  String
-  sector                    String
-  jornada                   String
-  ascenso                   String
-
-  usuariosituacionlaboral    informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionSituacionLaboral")
+  usuariosituacionlaboral informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionSituacionLaboral")
 
   @@map("situacionlaboral")
 }
 
 model salud {
+  idsalud         String @id @unique @default(uuid())
+  idUsuario       String
+  enfermecronica  String
+  discapacidad    String
+  suspsicoactivas String
+  alcohol         String
+  Internet        String
+  nicotina        String
+  eps             String
+  asispsicologo   String
 
-  idsalud                   String      @id @unique @default(uuid())
-  idUsuario                 String
-  enfermecronica            String
-  discapacidad              String
-  suspsicoactivas           String
-  alcohol                   String
-  Internet                  String
-  nicotina                  String
-  eps                       String
-  asispsicologo             String
-
-  usuariosalud    informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionSalud")
+  usuariosalud informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionSalud")
 
   @@map("salud")
 }

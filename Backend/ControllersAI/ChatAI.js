@@ -4,17 +4,11 @@ export const ChatAI = async (req, res) => {
 
     const apiKey = process.env.OPENAI_API_KEY;
 
-    const { newMessage } = req.body;
+    const { enviarhistorial } = req.body;
 
     const openai = new OpenAI({
         apiKey: apiKey,
     });
-
-    let conversation = [
-        { role: 'system', content: 'Eres un asistente útil' },
-    ];
-
-    conversation.push({role: 'user', content: newMessage});
 
     try {
         
@@ -22,12 +16,10 @@ export const ChatAI = async (req, res) => {
             model: 'gpt-4o-mini',
             temperature: 0.1,
             max_tokens: 5,
-            messages: conversation,
+            messages: enviarhistorial,
         });
 
         const assistantMessage = response.choices[0].message.content;
-
-        conversation.push({ role: 'assistant', content: assistantMessage });
 
         res.json({ message: assistantMessage });
 

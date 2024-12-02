@@ -42,7 +42,7 @@ export function Chat() {
     try {
       const conversacionAddmsgUser =
         JSON.parse(localStorage.getItem("conversacion")) || [];
-      const addmessageuser = { sender: "user", text: newMessage };
+      const addmessageuser = { role: "user", content: newMessage };
       conversacionAddmsgUser.push(addmessageuser);
       localStorage.setItem(
         "conversacion",
@@ -50,16 +50,18 @@ export function Chat() {
       );
       setConversacion([...conversacionAddmsgUser]);
 
+      let enviarhistorial = JSON.parse(localStorage.getItem("conversacion"));
+
       const response = await axios.post(
         "http://localhost:3000/psicologia/ChatAI",
-        { newMessage }
+        { enviarhistorial }
       );
       const assistantMessage = response.data.message;
 
       const conversacionAddmsgIa = JSON.parse(
         localStorage.getItem("conversacion")
       );
-      const addmessageIa = { sender: "IA", text: assistantMessage };
+      const addmessageIa = { role: "assistant", content: assistantMessage };
       conversacionAddmsgIa.push(addmessageIa);
       localStorage.setItem(
         "conversacion",
@@ -72,8 +74,6 @@ export function Chat() {
     } catch (error) {
       console.error("Error al enviar el mensaje:", error);
     }
-    // const mensajes = JSON.parse(localStorage.getItem("conversacion"));
-    // console.log(mensajes);
   };
 
   const handleLogout = () => {
@@ -149,13 +149,13 @@ export function Chat() {
             <div
               key={index}
               className={`flex ${
-                message.sender === "user" ? "justify-end" : "justify-start"
+                message.role === "user" ? "justify-end" : "justify-start"
               }`}
             >
-              {message.sender === "user" ? (
-                <MsgUser message={message.text} />
+              {message.role === "user" ? (
+                <MsgUser message={message.content} />
               ) : (
-                <MsgIA message={message.text} />
+                <MsgIA message={message.content} />
               )}
             </div>
           ))}
