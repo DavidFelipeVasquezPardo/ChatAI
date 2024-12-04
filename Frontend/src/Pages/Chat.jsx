@@ -8,8 +8,10 @@ import axios from "axios";
 import React from "react";
 
 localStorage.setItem("conversacion", JSON.stringify([]));
+localStorage.setItem("idchat", null)
 
 export function Chat() {
+
   const navigate = useNavigate();
   const scrollDiv = useRef(null);
 
@@ -68,9 +70,25 @@ export function Chat() {
         JSON.stringify(conversacionAddmsgIa)
       );
 
-      setConversacion([...conversacionAddmsgIa]);
+      const idchat = localStorage.getItem("idchat") === "null" ? null : localStorage.getItem("idchat");
+      const idUsuario = localStorage.getItem("idUsuario")
+      const conversacion = localStorage.getItem("conversacion")
 
+      const responsesave = await axios.post(
+        "http://localhost:3000/psicologia/ChatSave",
+        {
+          idchat,
+          idUsuario,
+          conversacion
+        }
+      )
+      const idchatRes = responsesave.data.chat.idchat;
+
+      localStorage.setItem("idchat",idchatRes)
+
+      setConversacion([...conversacionAddmsgIa]);
       setNewMessage("");
+
     } catch (error) {
       console.error("Error al enviar el mensaje:", error);
     }
@@ -93,15 +111,13 @@ export function Chat() {
     <div className="bg-[#111b46] w-full h-screen flex">
       {/* Barra lateral */}
       <div
-        className={`bg-[#192766] transition-all duration-300 ${
-          isSidebarOpen ? "w-80" : "w-0"
-        } h-full space-y-6 text-white shadow-lg`}
+        className={`bg-[#192766] transition-all duration-300 ${isSidebarOpen ? "w-80" : "w-0"
+          } h-full space-y-6 text-white shadow-lg`}
       >
         <button
           onClick={handleToggleSidebar}
-          className={`text-white hover:text-gray-300 focus:outline-none transition-all duration-200 ${
-            isSidebarOpen ? "ml-4 mt-4" : "ml-4 mt-4 absolute"
-          }`}
+          className={`text-white hover:text-gray-300 focus:outline-none transition-all duration-200 ${isSidebarOpen ? "ml-4 mt-4" : "ml-4 mt-4 absolute"
+            }`}
         >
           <img
             src={isSidebarOpen ? FlechaIzquierda : FlechaDerecha}
@@ -148,9 +164,8 @@ export function Chat() {
           {conversacion.map((message, index) => (
             <div
               key={index}
-              className={`flex ${
-                message.role === "user" ? "justify-end" : "justify-start"
-              }`}
+              className={`flex ${message.role === "user" ? "justify-end" : "justify-start"
+                }`}
             >
               {message.role === "user" ? (
                 <MsgUser message={message.content} />

@@ -31,6 +31,13 @@ model informacionUsuario {
   @@map("informacion_usuario")
 }
 
+model chats {
+  idchat  String  @id @unique @default(uuid())
+  idUsuario String
+  fechaHora DateTime @default(now())
+  conversacion Json
+}
+
 model credencial {
   idCredencial String @id @unique @default(uuid())
   idUsuario    String

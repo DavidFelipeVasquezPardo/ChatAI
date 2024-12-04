@@ -28,7 +28,7 @@ export function Start() {
             contrasena,
         });
 
-        localStorage.setItem("idUsuario", (res.data.usuario.idusuario));
+        localStorage.setItem("idUsuario", (res.data.usuario.idUsuario));
         localStorage.setItem("usuario", (res.data.usuario.usuario));
         localStorage.setItem("rol", (res.data.usuario.rol));
 
