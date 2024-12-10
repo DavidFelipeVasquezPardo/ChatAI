@@ -3,14 +3,14 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
+import Cookies from 'js-cookie'
+
 import BotIcon from '../../public/BotIcon.png';
 
 export function Start() {
 
   const [usuario, setUsuario] = useState("");
   const [contrasena, setContrasena] = useState("");
-
-  const [response, setResponse] = useState("");
 
   const navigate = useNavigate();
  
@@ -28,23 +28,41 @@ export function Start() {
             contrasena,
         });
 
-        localStorage.setItem("idUsuario", (res.data.usuario.idUsuario));
-        localStorage.setItem("usuario", (res.data.usuario.usuario));
-        localStorage.setItem("rol", (res.data.usuario.rol));
+        Cookies.set("idUsuario", (res.data.usuario.idUsuario),
+          {
+            expires: 7,         // Expira en 7 días
+            secure: true,       // Solo se envía por HTTPS
+            sameSite: 'Strict', // Evita el envío en solicitudes de terceros
+            path: '/',          // Disponible en todo el dominio
+          }
+        )
 
-        const rol = (localStorage.getItem("rol"));
+        Cookies.set("usuario", (res.data.usuario.usuario),
+          {
+            expires: 7,         
+            secure: true,       
+            sameSite: 'Strict', 
+            path: '/',          
+          }
+        )
 
-        if (rol === 'user') {
+        Cookies.set("rol", (res.data.usuario.rol),
+          {
+            expires: 7,         
+            secure: true,       
+            sameSite: 'Strict', 
+            path: '/',          
+          }
+        )
+
+        if (Cookies.get("rol") === 'user') {
           navigate('/Chat');
         } else if (rol === 'admin') {
           navigate('/Admin');
         }
-
-        setResponse(res.data.message || "Datos validados");
         
     } catch (error) {
         alert("Por favor, ingresa tanto usuario como contraseña correctos");
-        setResponse("Error Validacion");
         console.log(error);
     }
   };

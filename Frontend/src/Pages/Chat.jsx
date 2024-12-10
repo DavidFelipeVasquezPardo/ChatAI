@@ -2,10 +2,13 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import MsgUser from "./Components/MsgUser";
 import MsgIA from "./Components/MsgIA";
+import Chatcontainer from "./Components/ChatContainer";
 import FlechaDerecha from "../../public/FlechaDerecha.png";
 import FlechaIzquierda from "../../public/FlechaIzquierda.png";
 import axios from "axios";
 import React from "react";
+
+import Cookies from 'js-cookie'
 
 localStorage.setItem("conversacion", JSON.stringify([]));
 localStorage.setItem("idchat", null)
@@ -16,7 +19,7 @@ export function Chat() {
   const scrollDiv = useRef(null);
 
   const verificacionLogin = async () => {
-    if (!localStorage.getItem("rol")) {
+    if (!Cookies.get("rol")) {
       alert("Inicie sesión primero :D");
       navigate("/");
     }
@@ -70,21 +73,24 @@ export function Chat() {
         JSON.stringify(conversacionAddmsgIa)
       );
 
-      const idchat = localStorage.getItem("idchat") === "null" ? null : localStorage.getItem("idchat");
-      const idUsuario = localStorage.getItem("idUsuario")
       const conversacion = localStorage.getItem("conversacion")
 
       const responsesave = await axios.post(
         "http://localhost:3000/psicologia/ChatSave",
         {
-          idchat,
-          idUsuario,
+          idchat: Cookies.get("idchat"),
+          idUsuario: Cookies.get("idUsuario"),
           conversacion
         }
       )
-      const idchatRes = responsesave.data.chat.idchat;
 
-      localStorage.setItem("idchat",idchatRes)
+      Cookies.set("idchat", (responsesave.data.chat.idchat),
+        {
+          expires: 1,
+          secure: true,
+          sameSite: 'Strict',
+          path: '/',
+        })
 
       setConversacion([...conversacionAddmsgIa]);
       setNewMessage("");
@@ -96,10 +102,11 @@ export function Chat() {
 
   const handleLogout = () => {
     localStorage.clear();
+    Cookies.remove('idUsuario', "usuario", "rol", "idchat", { path: '/' });
     navigate("/Login");
   };
 
-  const username = localStorage.getItem("usuario") || "Invitado";
+  const username = Cookies.get("usuario");
 
   useEffect(() => {
     if (scrollDiv.current) {
@@ -127,12 +134,11 @@ export function Chat() {
         </button>
 
         {isSidebarOpen && (
-          <div className="p-6 max-w-96 overflow-y-auto">
-            <p className="text-lg font-semibold">Bienvenido</p>
-            <p className="text-sm text-gray-400">
-              Gestiona tus chats y opciones aquí.
-            </p>
+
+          <div className="p-6 max-w-96 max-h-96 overflow-y-auto">
+            <Chatcontainer></Chatcontainer>
           </div>
+
         )}
 
         <div className="flex flex-col items-center mt-auto p-6 space-y-4">
@@ -146,7 +152,7 @@ export function Chat() {
             Cerrar sesión
           </button>
           <button
-            onClick=""
+            // onClick={handleLogout}
             className="w-full p-3 bg-green-600 hover:bg-green-700 text-white rounded-md"
           >
             Editar Datos
