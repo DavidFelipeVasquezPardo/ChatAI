@@ -1,36 +1,36 @@
 /* Estilo general del checkbox */
 .checkbox {
-    appearance: none; /* Elimina el estilo por defecto */
-    width: 20px;
-    height: 20px;
-    border: 2px solid #003366; /* Azul oscuro */
-    border-radius: 4px;
-    background-color: #ffffff; /* Azul claro */
-    cursor: pointer;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
+  appearance: none; /* Elimina el estilo por defecto */
+  width: 20px;
+  height: 20px;
+  border: 2px solid #003366; /* Azul oscuro */
+  border-radius: 4px;
+  background-color: #ffffff; /* Azul claro */
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 /* Estilo al pasar el mouse */
 .checkbox:hover {
-    background-color: #4682B4; /* Azul intermedio */
+  background-color: #7f71e6; /* Azul intermedio */
 }
 
 /* Estilo cuando está marcado */
 .checkbox:checked {
-    background-color: #003366; /* Azul oscuro */
-    border-color: #2563eb; /* Azul claro */
-    position: relative;
+  background-color: #2d14ee; /* Azul oscuro */
+  border-color: #2563eb; /* Azul claro */
+  position: relative;
 }
 
 /* Icono de check cuando está marcado */
 .checkbox:checked::after {
-    content: "";
-    position: absolute;
-    top: 1px;
-    left: 5px;
-    width: 6px;
-    height: 12px;
-    border: solid #ffffff; /* Azul claro */
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
+  content: "";
+  position: absolute;
+  top: 1px;
+  left: 5px;
+  width: 6px;
+  height: 12px;
+  border: solid #ffffff; /* Azul claro */
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
 }

@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 export const Chat = async (req, res) => {
     const { idchat, idUsuario, conversacion } = req.body;
 
-    console.log("Datos recibidos:", req.body);
+    // console.log("Datos recibidos:", req.body);
 
     if (!conversacion || !idUsuario) {
         return res.status(400).json({ message: 'Datos incompletos' });
