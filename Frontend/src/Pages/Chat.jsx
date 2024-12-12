@@ -99,18 +99,25 @@ export function Chat() {
         JSON.stringify(conversacionAddmsgIa)
       );
 
+      const idchat =
+        localStorage.getItem("idchat") === "null"
+          ? null
+          : localStorage.getItem("idchat");
+      const idUsuario = localStorage.getItem("idUsuario");
       const conversacion = localStorage.getItem("conversacion");
 
       const responsesave = await axios.post(
         "http://localhost:3000/psicologia/ChatSave",
         {
-          idchat: localStorage.getItem("idchat"),
+          idchat: idchat,
           idUsuario: Cookies.get("idUsuario"),
           conversacion,
         }
       );
 
-      localStorage.setItem("idchat", responsesave.data.chat.idchat);
+      const idchatRes = responsesave.data.chat.idchat;
+
+      localStorage.setItem("idchat", idchatRes);
 
       setConversacion([...conversacionAddmsgIa]);
       setNewMessage("");
