@@ -104,18 +104,13 @@ export function Chat() {
       const responsesave = await axios.post(
         "http://localhost:3000/psicologia/ChatSave",
         {
-          idchat: Cookies.get("idchat"),
+          idchat: localStorage.getItem("idchat"),
           idUsuario: Cookies.get("idUsuario"),
           conversacion,
         }
       );
 
-      Cookies.set("idchat", responsesave.data.chat.idchat, {
-        expires: 1,
-        secure: true,
-        sameSite: "Strict",
-        path: "/",
-      });
+      localStorage.setItem("idchat", responsesave.data.chat.idchat);
 
       setConversacion([...conversacionAddmsgIa]);
       setNewMessage("");
@@ -126,7 +121,7 @@ export function Chat() {
 
   const handleLogout = () => {
     localStorage.clear();
-    Cookies.remove("idUsuario", "usuario", "rol", "idchat", { path: "/" });
+    Cookies.remove("idUsuario", "usuario", "rol", "idchat");
     navigate("/Login");
   };
 
