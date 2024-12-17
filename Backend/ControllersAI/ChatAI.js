@@ -14,8 +14,8 @@ export const ChatAI = async (req, res) => {
         
         const response = await openai.chat.completions.create({
             model: 'gpt-4o-mini',
-            temperature: 0.1,
-            max_tokens: 50,
+            // temperature: 0.1,
+            // max_tokens: 50,
             messages: enviarhistorial,
         });
 
