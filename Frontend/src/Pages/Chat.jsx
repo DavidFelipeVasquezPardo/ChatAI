@@ -5,6 +5,7 @@ import MsgIA from "./Components/MsgIA";
 import Chatcontainer from "./Components/ChatContainer";
 import FlechaDerecha from "../../public/FlechaDerecha.png";
 import FlechaIzquierda from "../../public/FlechaIzquierda.png";
+import NuevoChat from "../../public/NuevoChat.png"
 import axios from "axios";
 import React from "react";
 
@@ -27,6 +28,7 @@ export function Chat() {
   const [conversacion, setConversacion] = React.useState(
     JSON.parse(localStorage.getItem("conversacion"))
   );
+  const [isCooldown, setIsCooldown] = useState(false);
 
   const handleToggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -41,6 +43,8 @@ export function Chat() {
 
   const handleSendMessage = async () => {
     try {
+      if (isCooldown) return;
+      if (newMessage.trim() === "") return;
       const conversacionAddmsgUser =
         JSON.parse(localStorage.getItem("conversacion"));
       const addmessageuser = { role: "user", content: newMessage };
@@ -50,6 +54,10 @@ export function Chat() {
         JSON.stringify(conversacionAddmsgUser)
       );
       setConversacion([...conversacionAddmsgUser]);
+
+      setNewMessage("");
+      setIsCooldown(true);
+      setTimeout(() => setIsCooldown(false), 3000);
 
       let enviarhistorial = JSON.parse(localStorage.getItem("conversacion"));
 
@@ -89,7 +97,6 @@ export function Chat() {
       localStorage.setItem("idchat", idchatRes);
 
       setConversacion([...conversacionAddmsgIa]);
-      setNewMessage("");
     } catch (error) {
       console.error("Error al enviar el mensaje:", error);
     }
@@ -100,6 +107,67 @@ export function Chat() {
     Cookies.remove("idUsuario", "usuario", "rol", "idchat");
     navigate("/Login");
   };
+
+  const NewChat = () => {
+    localStorage.clear();
+    setConversacion([]);
+    const prompt = {
+      role: "system",
+      content: `
+      Instrucciones para Acompañante Virtual Empático:
+    
+      Perfil Core:
+      - Eres un confidente cercano, como un amigo comprensivo
+      - Comunicación directa, auténtica y sin rodeos
+      - Lenguaje juvenil pero respetuoso
+    
+      Principios de Comunicación:
+      1. Empatía Profunda
+      - Conecta con la emoción fundamental
+      - Usa lenguaje coloquial
+      - Muestra comprensión sin juzgar
+    
+      2. Comunicación Estratégica
+      - Respuestas cortas y directas
+      - Haz preguntas que inviten a la reflexión
+      - Enfócate en el bienestar emocional
+      - Evita consejos directos, prefiere guiar
+    
+      3. Manejo de Situaciones Sensibles
+      - Normaliza sentimientos
+      - No minimices experiencias
+      - Ofrece perspectivas alternativas sutilmente
+      - Prioriza la salud emocional
+    
+      4. Técnicas de Conversación
+      - Reformular sentimientos
+      - Hacer preguntas abiertas provocativas
+      - Validar sin alimentar narrativas dañinas
+      - Mostrar una escucha activa y real
+    
+      Ejemplos de Tono:
+      - "Uf, suena heavy..." 
+      - "Tremenda situación, ¿no?"
+      - "Se ve que te está afectando bastante"
+    
+      Señales Especiales:
+      - Detectar subtonos de sufrimiento
+      - Identificar posibles riesgos emocionales
+      - Estar alerta a señales de vulnerabilidad
+    
+      NO Hacer:
+      - Dar consejos directos
+      - Minimizar sentimientos
+      - Responder con frases ensayadas
+      - Perder la conexión emocional
+      `,
+    }  
+    localStorage.setItem(
+      "conversacion",
+      JSON.stringify([prompt]));
+    
+    localStorage.setItem("idchat", null);
+  }
 
   const username = Cookies.get("usuario");
 
@@ -113,21 +181,32 @@ export function Chat() {
     <div className="bg-[#111b46] w-full h-screen flex">
       {/* Barra lateral */}
       <div
-        className={`bg-gradient-to-r from-[#2d14ee] to-[#6241f2] transition-all duration-300 flex flex-col ${
+        className={`bg-gradient-to-r from-[#2d14ee] to-[#6241f2] duration-300 flex flex-col ${
           isSidebarOpen ? "w-80" : "w-0"
         } h-full space-y-6 text-white shadow-lg`}
       >
-        <div className="h-1/6">
+        <div className="h-1/6 flex flex-row items-start">
           <button
             onClick={handleToggleSidebar}
-            className={`text-white hover:text-gray-300 focus:outline-none transition-all duration-200 ${
-              isSidebarOpen ? "ml-4 mt-4" : "ml-4 mt-4 absolute"
+            className={`transform duration-300 ${
+              isSidebarOpen ? "ml-4 mt-4 absolute" : "ml-4 mt-4 absolute"
             }`}
           >
             <img
               src={isSidebarOpen ? FlechaIzquierda : FlechaDerecha}
               className="h-8"
               alt="Toggle Sidebar"
+            />
+          </button>
+          <button
+            onClick={NewChat}
+            className={`transform duration-300 ${
+              isSidebarOpen ? "ml-64 mt-3 absolute" : "ml-14 mt-3 absolute"
+            }`}
+          >
+            <img
+            src={NuevoChat}
+            className="h-10"
             />
           </button>
         </div>
