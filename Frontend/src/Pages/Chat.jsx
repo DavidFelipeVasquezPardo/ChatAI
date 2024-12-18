@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import MsgUser from "./Components/MsgUser";
 import MsgIA from "./Components/MsgIA";
 import Chatcontainer from "./Components/ChatContainer";
-import FlechaDerecha from "../../public/FlechaDerecha.png";
-import FlechaIzquierda from "../../public/FlechaIzquierda.png";
-import NuevoChat from "../../public/NuevoChat.png"
+import FlechaDerecha from "/FlechaDerecha.png";
+import FlechaIzquierda from "/FlechaIzquierda.png";
+import NuevoChat from "/NuevoChat.png"
 import axios from "axios";
 import React from "react";
 
@@ -29,6 +29,7 @@ export function Chat() {
     JSON.parse(localStorage.getItem("conversacion"))
   );
   const [isCooldown, setIsCooldown] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const handleToggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -76,6 +77,10 @@ export function Chat() {
         "conversacion",
         JSON.stringify(conversacionAddmsgIa)
       );
+
+      if( localStorage.getItem("idchat") === "null"){
+        setRefreshKey((prevKey) => prevKey + 1);
+      }
 
       const idchat =
         localStorage.getItem("idchat") === "null"
@@ -167,6 +172,8 @@ export function Chat() {
       JSON.stringify([prompt]));
     
     localStorage.setItem("idchat", null);
+
+    setRefreshKey((prevKey) => prevKey + 1);
   }
 
   const username = Cookies.get("usuario");
@@ -212,7 +219,7 @@ export function Chat() {
         </div>
 
         <div className="p-6 max-w-96 max-h-96 overflow-y-auto h-3/6">
-          {/* <Chatcontainer></Chatcontainer> */}
+          <Chatcontainer key={refreshKey} ></Chatcontainer>
         </div>
 
         <div className="flex flex-col items-center mt-auto p-6 space-y-4 h-2/6">

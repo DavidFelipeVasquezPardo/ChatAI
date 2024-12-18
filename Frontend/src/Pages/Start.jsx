@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 import Cookies from "js-cookie";
 
-import BotIcon from "../../public/BotIcon.png";
+import BotIcon from "/BotIcon.png";
 
 export function Start() {
   const [usuario, setUsuario] = useState("");

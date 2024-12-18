@@ -25,7 +25,7 @@ export const Chat = async (req, res) => {
                 },
             });
 
-            console.log("Chat creado:", chats);
+            // console.log("Chat creado:", chats);
 
             return res.status(201).json({ message: 'Chat creado exitosamente', chat: chats });
         } catch (error) {
