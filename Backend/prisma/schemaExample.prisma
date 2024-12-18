@@ -13,29 +13,44 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+//Creacion usuario:-----------------------------------------------------------------------------------------------------------------------------------------------------
 model informacionUsuario {
-  idUsuario        String  @id @unique @default(uuid())
+  idUsuario        String @id @unique @default(uuid())
   nombre           String
   apellido         String?
-  correo           String
-  telefonoPersonal String
+  correo           String @unique
+  telefonoPersonal String @unique
   telefonoFamiliar String
 
+  //Asistente Psicologico:
+  chats               chats[]               @relation("conexionChats")
   credenciales        credencial[]          @relation("conexionCredencial")
+  
+  //sociodemografico:
   informacionPersonal informacionPersonal[] @relation("conexionInformacionPersonal")
   condicionesVivienda condicionesvivienda[] @relation("conexionCondicionesVivienda")
   educacion           educacion[]           @relation("conexionEducacion")
   situcionlaboral     situacionlaboral[]    @relation("conexionSituacionLaboral")
   Salud               salud[]               @relation("conexionSalud")
 
+  //GHQ12:
+  GHQ12Id        GHQ12[]@relation("conexionidGHQ12")
+  GHQ12Tel       GHQ12[]@relation("conexionHistorialTel")
+
   @@map("informacion_usuario")
 }
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+//Asistente Psicologico:------------------------------------------------------------------------------------------------------------------------------------------------
 model chats {
   idchat  String  @id @unique @default(uuid())
   idUsuario String
   fechaHora DateTime @default(now())
   conversacion Json
+
+  usuarioChats informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionChats")
+
+  @@map("chats")
 }
 
 model credencial {
@@ -45,11 +60,11 @@ model credencial {
   contrasena   String
   rol          String @default("user")
 
-  usuarioInformacion informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionCredencial")
+  usuarioCredencial informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionCredencial")
 
   @@map("credencial")
 }
-
+//Sociodemografico:
 model informacionPersonal {
   idinformacionPersonal String @id @unique @default(uuid())
   idUsuario             String
@@ -132,3 +147,20 @@ model salud {
 
   @@map("salud")
 }
+//GHQ12 + Tests:
+model GHQ12 {
+  idGHQ12             String @id @unique @default(uuid())
+  idUsuario           String 
+  telefonoPersonal    String
+  tratDatos           String   @default("")
+  historial           Json
+  Puntaje             Int      @default(0) // Campo para almacenar el puntaje total
+  preguntaActual      Int      @default(0) // Campo para almacenar la pregunta actual
+  resPreg             Json     @default("{\"0\":[],\"1\":[],\"2\":[],\"3\":[]}")
+
+  usuarioGHQ12 informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionidGHQ12")
+  usuarioHistorialTelefono informacionUsuario @relation(fields: [telefonoPersonal], references: [telefonoPersonal], name: "conexionHistorialTel")
+}
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//Agendamientos:------------------------------------------------------------------------------------------------------------------------------------------------

@@ -7,7 +7,7 @@ export const RegistroUser = async (req, res) => {
     const { 
         nombre, apellido, correo, telefonoPersonal, telefonoFamiliar, 
         usuario, contrasena, 
-        edad, genero, estadocivil, hijosnum, personascargo, vivienda, localidad, tipovivienda, familiaresnum, estrato, etnico, 
+        edad, sexo, genero, estadocivil, hijosnum, personascargo, vivienda, localidad, tipovivienda, familiaresnum, estrato, etnico, 
         hacinamiento, violencia, servicios, problemas, tipozona, 
         tipocolegio, nivelescolaridad, carrera, periodo, motivo, matedificulta, nivelingles, 
         situacion, ingresos, sector, jornada, ascenso, 
@@ -48,6 +48,7 @@ export const RegistroUser = async (req, res) => {
         const newinformacionPersonal = await prisma.informacionPersonal.create({
             data: {
                 edad: parseIntSafe(edad),
+                sexo,
                 genero,
                 estadocivil,
                 hijosnum: parseIntSafe(hijosnum),

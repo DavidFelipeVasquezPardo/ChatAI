@@ -71,6 +71,16 @@ const steps = [
     comment: "Indica tu edad actual 🎂 y pulsa 'Siguiente'",
   },
   {
+    label: "sexo",
+    name: "sexo",
+    type: "select",
+    Comment: "Especifica tu sexo ⚧️ y pulsa 'Siguiente'",
+    options:[
+      {label:"Hombre",value:"Hombre"},
+      {label:"Mujer",value:"Hombre"},
+    ],
+  },
+  {
     label: "Género",
     name: "genero",
     type: "select",
@@ -347,9 +357,24 @@ const steps = [
   {
     label: "Carrera Universitaria",
     name: "carrera",
-    type: "text",
+    type: "select",
     comment:
       "Si estudiaste o estudias una carrera, indícala aquí (escribe NA si no aplica) 📚  y pulsa 'Siguiente'",
+      options: [
+        { label: "Ingeniería de Sistemas", value: "IngenieriaDeSistemas" },
+        { label: "Ingeniería Industrial", value: "IngenieriaIndustrial" },
+        { label: "Ingeniería de Software", value: "IngenieriaDeSoftware" },
+        { label: "Administración de Empresas", value: "AdministracionDeEmpresas" },
+        { label: "Derecho", value: "Derecho" },
+        { label: "Medicina", value: "Medicina" },
+        { label: "Contaduría Pública", value: "ContaduriaPublica" },
+        { label: "Psicología", value: "Psicologia" },
+        { label: "Arquitectura", value: "Arquitectura" },
+        { label: "Comunicación Social", value: "ComunicacionSocial" },
+        { label: "Diseño Gráfico", value: "DisenoGrafico" },
+        { label: "Educación", value: "Educacion" },
+        { label: "NA", value: "NA" },
+      ],      
   },
   {
     label: "Estado de la Carrera",
@@ -389,7 +414,6 @@ const steps = [
       { label: "Arte", value: "arte" },
       { label: "Química", value: "quimica" },
       { label: "Física", value: "fisica" },
-      { label: "NA", value: "NA" },
     ],
   },
   {
@@ -578,8 +602,22 @@ const steps = [
   {
     label: "EPS Afiliada",
     name: "eps",
-    type: "text",
+    type: "select",
     comment: "Indica a qué EPS estás afiliado 🏥 y pulsa 'Siguiente'",
+    options: [
+      { label: "Nueva EPS", value: "NuevaEPS" },
+      { label: "Sura EPS", value: "SuraEPS" },
+      { label: "Sanitas EPS", value: "SanitasEPS" },
+      { label: "Compensar EPS", value: "CompensarEPS" },
+      { label: "Coomeva EPS", value: "CoomevaEPS" },
+      { label: "Famisanar EPS", value: "FamisanarEPS" },
+      { label: "Salud Total EPS", value: "SaludTotalEPS" },
+      { label: "Cafesalud EPS", value: "CafesaludEPS" },
+      { label: "Medimás EPS", value: "MedimasEPS" },
+      { label: "Mutual SER EPS", value: "MutualSER" },
+      { label: "Ambuq EPS", value: "AmbuqEPS" },
+      { label: "NA", value: "NA" },
+    ],
   },
   {
     label: "Atención Psicológica",
@@ -609,6 +647,7 @@ export function Register() {
     usuario: "",
     contrasena: "",
     edad: 0,
+    sexo: "",
     genero: "",
     estadocivil: "",
     hijosnum: 0,
