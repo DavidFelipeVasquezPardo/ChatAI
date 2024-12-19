@@ -15,6 +15,18 @@ model informacionUsuario {
   correo           String  @unique
   telefonoPersonal String  @unique
   telefonoFamiliar String
+  documento        String  @unique
+  tipoDocumento    String  @default("CC")
+  testActual       String? // Tests
+
+  // Relación con ghq12
+  ghq12 ghq12?
+  tests tests?
+
+  // Agendamiento
+  disponibilidad        String                  @default("")
+  citas                 cita[]
+  historialAgendamiento historialAgendamiento[]
 
   // Relaciones
   chats        chats[]      @relation("conexionChats")
@@ -26,12 +38,6 @@ model informacionUsuario {
   educacion           educacion[]           @relation("conexionEducacion")
   situacionlaboral    situacionlaboral[]    @relation("conexionSituacionLaboral")
   salud               salud[]               @relation("conexionSalud")
-
-  // Tests
-  testActual String?
-  // Relación con ghq12
-  ghq12      ghq12?
-  tests      tests?
 
   @@map("informacion_usuario")
 }
@@ -156,12 +162,11 @@ model ghq12 {
   preguntaActual Int    @default(0)
   resPreg        Json?
 
-  // Relación con informacionUsuario
-  usuario informacionUsuario @relation(fields: [telefono], references: [telefonoPersonal])
+  usuario informacionUsuario @relation(fields: [telefono], references: [telefonoPersonal]) // Relación con informacionUsuario
 }
 
 model tests {
-  idGhq12        String @id @unique @default(uuid())
+  idTests        String @id @unique @default(uuid())
   telefono       String @unique
   tratDatos      String @default("")
   historial      Json?
@@ -169,10 +174,69 @@ model tests {
   preguntaActual Int    @default(0)
   resPreg        Json?
 
-  // Relación con informacionUsuario
-  usuario informacionUsuario @relation(fields: [telefono], references: [telefonoPersonal])
+  usuario informacionUsuario @relation(fields: [telefono], references: [telefonoPersonal]) // Relación con informacionUsuario
 }
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 //Agendamientos:------------------------------------------------------------------------------------------------------------------------------------------------
+
+model consultorio {
+  idConsultorio String  @id @unique @default(uuid())
+  nombre        String
+  activo        Boolean @default(true)
+
+  citas cita[] // Relación con cita
+}
+
+model historialAgendamiento {
+  idHistAgendamiento String  @id @unique @default(uuid())
+  numeroUsuario      String  @unique
+  citaAgendada       Boolean @default(false)
+  tratDatos          String  @default("")
+  historial          Json?
+  agendamiento       Boolean @default(false)
+
+  usuario informacionUsuario @relation(fields: [numeroUsuario], references: [telefonoPersonal]) // Relación con informacionUsuario
+}
+
+model practicante {
+  idPracticante    String @id @unique @default(uuid())
+  numero_documento String @unique
+  tipo_documento   String @default("CC")
+  nombre           String
+  genero           String
+  estrato          String
+  barrio           String
+  localidad        String
+  horario          String
+
+  citas cita[] // Relación con cita
+}
+
+model cita {
+  idCita        String @id @unique @default(uuid())
+  idConsultorio String
+  idUsuario     String
+  idPracticante String
+  fechaHora     String
+
+  consultorio consultorio        @relation(fields: [idConsultorio], references: [idConsultorio]) // Relación con consultorio
+  usuario     informacionUsuario @relation(fields: [idUsuario], references: [idUsuario]) // Relación con informacionUsuario
+  practicante practicante        @relation(fields: [idPracticante], references: [idPracticante]) // Relación con practicante
+}
+
+// Inserte historial clinico
+
+// model HistorialClinico {
+//   id              Int      @id @default(autoincrement())
+//   motivo_consulta String   @db.VarChar(100)
+//   remitido        String   @db.VarChar(100)
+//   diagnostico     String   @db.VarChar(200)
+//   tratamiento     String   @db.VarChar(200)
+//   estado_proceso  String   @db.VarChar(50)
+//   pacienteId      BigInt
+//   citaId          Int
+//   Cita            Cita     @relation(fields: [citaId], references: [id_cita])
+//   Paciente        Paciente @relation(fields: [pacienteId], references: [numero_documento])
+// }

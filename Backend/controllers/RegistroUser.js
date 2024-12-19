@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 export const RegistroUser = async (req, res) => {
     
     const { 
-        nombre, apellido, correo, telefonoPersonal, telefonoFamiliar, 
+        nombre, apellido, correo, telefonoPersonal, telefonoFamiliar,tipoDocumento,documento, 
         usuario, contrasena, 
         edad, sexo, genero, estadocivil, hijosnum, personascargo, vivienda, localidad, tipovivienda, familiaresnum, estrato, etnico, 
         hacinamiento, violencia, servicios, problemas, tipozona, 
@@ -34,6 +34,8 @@ export const RegistroUser = async (req, res) => {
                 correo,
                 telefonoPersonal,
                 telefonoFamiliar,
+                documento,
+                tipoDocumento,
             }
         });
 

@@ -57,7 +57,7 @@ export function Start() {
 
       if (Cookies.get("rol") === "user") {
         navigate("/Chat");
-      } else if (rol === "admin") {
+      } else if (Cookies.get("rol") === "admin") {
         navigate("/Admin");
       }
     } catch (error) {
