@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -15,37 +9,40 @@ datasource db {
 
 //Creacion usuario:-----------------------------------------------------------------------------------------------------------------------------------------------------
 model informacionUsuario {
-  idUsuario        String @id @unique @default(uuid())
+  idUsuario        String  @id @unique @default(uuid())
   nombre           String
   apellido         String?
-  correo           String @unique
-  telefonoPersonal String @unique
+  correo           String  @unique
+  telefonoPersonal String  @unique
   telefonoFamiliar String
 
-  //Asistente Psicologico:
-  chats               chats[]               @relation("conexionChats")
-  credenciales        credencial[]          @relation("conexionCredencial")
-  
-  //sociodemografico:
+  // Relaciones
+  chats        chats[]      @relation("conexionChats")
+  credenciales credencial[] @relation("conexionCredencial")
+
+  // Sociodemográfico
   informacionPersonal informacionPersonal[] @relation("conexionInformacionPersonal")
   condicionesVivienda condicionesvivienda[] @relation("conexionCondicionesVivienda")
   educacion           educacion[]           @relation("conexionEducacion")
-  situcionlaboral     situacionlaboral[]    @relation("conexionSituacionLaboral")
-  Salud               salud[]               @relation("conexionSalud")
+  situacionlaboral    situacionlaboral[]    @relation("conexionSituacionLaboral")
+  salud               salud[]               @relation("conexionSalud")
 
-  //GHQ12:
-  GHQ12Id        GHQ12[]@relation("conexionidGHQ12")
-  GHQ12Tel       GHQ12[]@relation("conexionHistorialTel")
+  // Tests
+  testActual String?
+  // Relación con ghq12
+  ghq12      ghq12?
+  tests      tests?
 
   @@map("informacion_usuario")
 }
+
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 //Asistente Psicologico:------------------------------------------------------------------------------------------------------------------------------------------------
 model chats {
-  idchat  String  @id @unique @default(uuid())
-  idUsuario String
-  fechaHora DateTime @default(now())
+  idchat       String   @id @unique @default(uuid())
+  idUsuario    String
+  fechaHora    DateTime @default(now())
   conversacion Json
 
   usuarioChats informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionChats")
@@ -64,6 +61,7 @@ model credencial {
 
   @@map("credencial")
 }
+
 //Sociodemografico:
 model informacionPersonal {
   idinformacionPersonal String @id @unique @default(uuid())
@@ -147,20 +145,34 @@ model salud {
 
   @@map("salud")
 }
-//GHQ12 + Tests:
-model GHQ12 {
-  idGHQ12             String @id @unique @default(uuid())
-  idUsuario           String 
-  telefonoPersonal    String
-  tratDatos           String   @default("")
-  historial           Json
-  Puntaje             Int      @default(0) // Campo para almacenar el puntaje total
-  preguntaActual      Int      @default(0) // Campo para almacenar la pregunta actual
-  resPreg             Json     @default("{\"0\":[],\"1\":[],\"2\":[],\"3\":[]}")
 
-  usuarioGHQ12 informacionUsuario @relation(fields: [idUsuario], references: [idUsuario], name: "conexionidGHQ12")
-  usuarioHistorialTelefono informacionUsuario @relation(fields: [telefonoPersonal], references: [telefonoPersonal], name: "conexionHistorialTel")
+//GHQ12 + Tests:
+model ghq12 {
+  idGhq12        String @id @unique @default(uuid())
+  telefono       String @unique
+  tratDatos      String @default("")
+  historial      Json?
+  Puntaje        Int    @default(0)
+  preguntaActual Int    @default(0)
+  resPreg        Json?
+
+  // Relación con informacionUsuario
+  usuario informacionUsuario @relation(fields: [telefono], references: [telefonoPersonal])
 }
+
+model tests {
+  idGhq12        String @id @unique @default(uuid())
+  telefono       String @unique
+  tratDatos      String @default("")
+  historial      Json?
+  Puntaje        Int    @default(0)
+  preguntaActual Int    @default(0)
+  resPreg        Json?
+
+  // Relación con informacionUsuario
+  usuario informacionUsuario @relation(fields: [telefono], references: [telefonoPersonal])
+}
+
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 //Agendamientos:------------------------------------------------------------------------------------------------------------------------------------------------

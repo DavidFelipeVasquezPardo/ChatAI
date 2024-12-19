@@ -6,10 +6,12 @@ import Chatcontainer from "./Components/ChatContainer";
 import FlechaDerecha from "/FlechaDerecha.png";
 import FlechaIzquierda from "/FlechaIzquierda.png";
 import NuevoChat from "/NuevoChat.png"
+import NuecoChatAzul from "/NuevoChatAzul.png"
 import axios from "axios";
 import React from "react";
 
 import Cookies from "js-cookie";
+import { prompt } from "./Components/Prompts";
 
 export function Chat() {
   const navigate = useNavigate();
@@ -30,6 +32,12 @@ export function Chat() {
   );
   const [isCooldown, setIsCooldown] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
+
+  const handleChatUpdate = () => {
+    const updatedConversacion = JSON.parse(localStorage.getItem("conversacion"));
+    setConversacion(updatedConversacion);
+    setRefreshKey(prev => prev + 1);
+  };
 
   const handleToggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -78,10 +86,6 @@ export function Chat() {
         JSON.stringify(conversacionAddmsgIa)
       );
 
-      if( localStorage.getItem("idchat") === "null"){
-        setRefreshKey((prevKey) => prevKey + 1);
-      }
-
       const idchat =
         localStorage.getItem("idchat") === "null"
           ? null
@@ -102,6 +106,7 @@ export function Chat() {
       localStorage.setItem("idchat", idchatRes);
 
       setConversacion([...conversacionAddmsgIa]);
+      setRefreshKey((prevKey) => prevKey + 1);
     } catch (error) {
       console.error("Error al enviar el mensaje:", error);
     }
@@ -116,64 +121,14 @@ export function Chat() {
   const NewChat = () => {
     localStorage.clear();
     setConversacion([]);
-    const prompt = {
-      role: "system",
-      content: `
-      Instrucciones para Acompañante Virtual Empático:
-    
-      Perfil Core:
-      - Eres un confidente cercano, como un amigo comprensivo
-      - Comunicación directa, auténtica y sin rodeos
-      - Lenguaje juvenil pero respetuoso
-    
-      Principios de Comunicación:
-      1. Empatía Profunda
-      - Conecta con la emoción fundamental
-      - Usa lenguaje coloquial
-      - Muestra comprensión sin juzgar
-    
-      2. Comunicación Estratégica
-      - Respuestas cortas y directas
-      - Haz preguntas que inviten a la reflexión
-      - Enfócate en el bienestar emocional
-      - Evita consejos directos, prefiere guiar
-    
-      3. Manejo de Situaciones Sensibles
-      - Normaliza sentimientos
-      - No minimices experiencias
-      - Ofrece perspectivas alternativas sutilmente
-      - Prioriza la salud emocional
-    
-      4. Técnicas de Conversación
-      - Reformular sentimientos
-      - Hacer preguntas abiertas provocativas
-      - Validar sin alimentar narrativas dañinas
-      - Mostrar una escucha activa y real
-    
-      Ejemplos de Tono:
-      - "Uf, suena heavy..." 
-      - "Tremenda situación, ¿no?"
-      - "Se ve que te está afectando bastante"
-    
-      Señales Especiales:
-      - Detectar subtonos de sufrimiento
-      - Identificar posibles riesgos emocionales
-      - Estar alerta a señales de vulnerabilidad
-    
-      NO Hacer:
-      - Dar consejos directos
-      - Minimizar sentimientos
-      - Responder con frases ensayadas
-      - Perder la conexión emocional
-      `,
-    }  
+
     localStorage.setItem(
       "conversacion",
       JSON.stringify([prompt]));
-    
+
     localStorage.setItem("idchat", null);
 
-    setRefreshKey((prevKey) => prevKey + 1);
+    // setRefreshKey((prevKey) => prevKey + 1);
   }
 
   const username = Cookies.get("usuario");
@@ -185,73 +140,68 @@ export function Chat() {
   }, [conversacion]);
 
   return (
-    <div className="bg-[#111b46] w-full h-screen flex">
-      {/* Barra lateral */}
+    <div className="bg-blue-50 w-full h-screen flex">
+      {/* Sidebar */}
       <div
-        className={`bg-gradient-to-r from-[#2d14ee] to-[#6241f2] duration-300 flex flex-col ${
-          isSidebarOpen ? "w-80" : "w-0"
-        } h-full space-y-6 text-white shadow-lg`}
-      >
-        <div className="h-1/6 flex flex-row items-start">
-          <button
-            onClick={handleToggleSidebar}
-            className={`transform duration-300 ${
-              isSidebarOpen ? "ml-4 mt-4 absolute" : "ml-4 mt-4 absolute"
-            }`}
-          >
-            <img
-              src={isSidebarOpen ? FlechaIzquierda : FlechaDerecha}
-              className="h-8"
-              alt="Toggle Sidebar"
-            />
-          </button>
-          <button
-            onClick={NewChat}
-            className={`transform duration-300 ${
-              isSidebarOpen ? "ml-64 mt-3 absolute" : "ml-14 mt-3 absolute"
-            }`}
-          >
-            <img
-            src={NuevoChat}
-            className="h-10"
-            />
-          </button>
-        </div>
+  className={`bg-gradient-to-b from-blue-500 to-blue-700 duration-300 flex flex-col justify-around ${
+    isSidebarOpen ? "w-80" : "w-0"
+  } h-screen space-y-6 text-white shadow-xl`}
+>
+  <div className="h-20 flex flex-row items-start">
+    <button
+      onClick={handleToggleSidebar}
+      className={`transform duration-300 ${
+        isSidebarOpen ? "ml-4 mt-4 absolute" : "ml-4 mt-4 absolute"
+      }`}
+    >
+      <img
+        src={isSidebarOpen ? FlechaIzquierda : FlechaDerecha}
+        className="h-8"
+        alt="Toggle Sidebar"
+      />
+    </button>
+    <button
+      onClick={NewChat}
+      className={`transform duration-300 ${
+        isSidebarOpen ? "ml-64 mt-3 absolute" : "ml-14 mt-3 absolute"
+      }`}
+    >
+      <img src={isSidebarOpen ? NuevoChat : NuecoChatAzul} className="h-10" />
+    </button>
+  </div>
 
-        <div className="p-6 max-w-96 max-h-96 overflow-y-auto h-3/6">
-          <Chatcontainer key={refreshKey} ></Chatcontainer>
-        </div>
+  <div className="p-6 max-w-96 h-full overflow-y-auto scrollbar-thin scrollbar-thumb-blue-400 scrollbar-track-blue-600">
+    <Chatcontainer key={refreshKey} onChatLoaded={handleChatUpdate}></Chatcontainer>
+  </div>
 
-        <div className="flex flex-col items-center mt-auto p-6 space-y-4 h-2/6">
-          <p className="text-lg font-bold text-gray-200">{username}</p>
-          <button
-            onClick={handleLogout}
-            className="w-full p-3 bg-blue-600 hover:bg-blue-700 text-white rounded-md"
-          >
-            Cerrar sesión
-          </button>
-          <button
-            // onClick={handleLogout}
-            className="w-full p-3 bg-blue-600 hover:bg-blue-700 text-white rounded-md"
-          >
-            Editar Datos
-          </button>
-        </div>
-      </div>
+  <div className="flex flex-col items-center mt-auto p-6 space-y-4 h-52 bg-blue-900 bg-opacity-30">
+    <p className="text-lg font-semibold text-blue-50">{username}</p>
+    <button
+      onClick={handleLogout}
+      className="w-full p-3 bg-blue-400 hover:bg-blue-500 text-white rounded-lg shadow-lg transition-colors duration-200"
+    >
+      Cerrar sesión
+    </button>
+    <button
+      className={`w-full p-3 bg-blue-400 hover:bg-blue-500 text-white rounded-lg shadow-lg transition-colors duration-200" ${ isSidebarOpen ? "w-full p-3" : "w-2 h-2"}`}
+    >
+      Editar Datos
+    </button>
+  </div>
+</div>
 
-      {/* Contenido del chat */}
-      <div className="flex-1 flex flex-col justify-between bg-[#4a31b7] text-white">
+
+      {/* Chat content */}
+      <div className="flex-1 flex flex-col justify-between bg-gradient-to-br from-blue-50 to-blue-200">
         <div
           ref={scrollDiv}
           id="chatContainer"
-          className="flex-1 overflow-y-auto space-y-4 p-6 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800"
+          className="flex-1 overflow-y-auto space-y-6 p-8 scrollbar-thin scrollbar-thumb-blue-300 scrollbar-track-blue-100"
         >
           {conversacion.slice(1).map((message, index) => (
             <div
               key={index}
-              className={`flex ${
-                message.role === "user" ? "justify-end" : "justify-start"
-              }`}
+              className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
             >
               {message.role === "user" ? (
                 <MsgUser message={message.content} />
@@ -262,18 +212,18 @@ export function Chat() {
           ))}
         </div>
 
-        <div className="flex items-center bg-[#4a31b7] p-4">
+        <div className="flex items-center bg-white bg-opacity-90 p-6 border-t border-blue-100 shadow-inner">
           <input
             type="text"
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             placeholder="Escribe un mensaje..."
-            className="flex-1 p-3 rounded-l-md border-none focus:outline-none bg-white text-black placeholder:text-write"
+            className="flex-1 p-4 rounded-l-xl border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-blue-800 placeholder:text-blue-400"
             onKeyDown={handleKeyDown}
           />
           <button
             onClick={handleSendMessage}
-            className="p-3 bg-blue-500 hover:bg-blue-600 text-white rounded-r-md focus:outline-none"
+            className="p-4 bg-blue-600 hover:bg-blue-700 text-white rounded-r-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
           >
             Enviar
           </button>

@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 import Cookies from "js-cookie";
+import { prompt } from "./Components/Prompts";
 
 import BotIcon from "/BotIcon.png";
 
@@ -47,58 +48,6 @@ export function Start() {
         sameSite: "Strict",
         path: "/",
       });
-
-      const prompt = {
-        role: "system",
-        content: `
-        Instrucciones para Acompañante Virtual Empático:
-      
-        Perfil Core:
-        - Eres un confidente cercano, como un amigo comprensivo
-        - Comunicación directa, auténtica y sin rodeos
-        - Lenguaje juvenil pero respetuoso
-      
-        Principios de Comunicación:
-        1. Empatía Profunda
-        - Conecta con la emoción fundamental
-        - Usa lenguaje coloquial
-        - Muestra comprensión sin juzgar
-      
-        2. Comunicación Estratégica
-        - Respuestas cortas y directas
-        - Haz preguntas que inviten a la reflexión
-        - Enfócate en el bienestar emocional
-        - Evita consejos directos, prefiere guiar
-      
-        3. Manejo de Situaciones Sensibles
-        - Normaliza sentimientos
-        - No minimices experiencias
-        - Ofrece perspectivas alternativas sutilmente
-        - Prioriza la salud emocional
-      
-        4. Técnicas de Conversación
-        - Reformular sentimientos
-        - Hacer preguntas abiertas provocativas
-        - Validar sin alimentar narrativas dañinas
-        - Mostrar una escucha activa y real
-      
-        Ejemplos de Tono:
-        - "Uf, suena heavy..." 
-        - "Tremenda situación, ¿no?"
-        - "Se ve que te está afectando bastante"
-      
-        Señales Especiales:
-        - Detectar subtonos de sufrimiento
-        - Identificar posibles riesgos emocionales
-        - Estar alerta a señales de vulnerabilidad
-      
-        NO Hacer:
-        - Dar consejos directos
-        - Minimizar sentimientos
-        - Responder con frases ensayadas
-        - Perder la conexión emocional
-        `,
-      }
       
       localStorage.setItem(
         "conversacion",
@@ -118,53 +67,53 @@ export function Start() {
   };
 
   return (
-    <div className="bg-gradient-to-b from-[#2d14ee] to-[#6241f2] w-full h-screen flex items-center justify-center">
-      <div className="flex flex-col md:flex-row items-center w-full max-w-5xl p-6 rounded-lg bg-[#2410bd]">
+    <div className="bg-gradient-to-b from-blue-100 to-blue-300 w-full h-screen flex items-center justify-center">
+      <div className="flex flex-col md:flex-row items-center w-full max-w-5xl p-6 rounded-lg bg-white shadow-xl">
         <div className="flex flex-col items-center w-full max-w-md p-6 space-y-4">
-          <h2 className="text-3xl font-semibold text-white mb-6">
+          <h2 className="text-3xl font-semibold text-blue-700 mb-6">
             ¡Bienvenido!
           </h2>
 
           <form
-            className="text-white flex flex-col space-y-4 w-full"
+            className="text-gray-700 flex flex-col space-y-4 w-full"
             onSubmit={handleSubmit}
           >
             <div className="flex flex-col space-y-2">
-              <p>Usuario:</p>
+              <p className="font-medium text-blue-700">Usuario:</p>
               <input
                 type="text"
                 required
                 value={usuario}
                 onChange={(e) => setUsuario(e.target.value)}
-                className="p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-[#1e2a47] text-white placeholder:text-gray-400"
+                className="p-3 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-50 placeholder-gray-400"
                 placeholder="Ingresa tu usuario"
               />
             </div>
 
             <div className="flex flex-col space-y-2">
-              <p>Contraseña:</p>
+              <p className="font-medium text-blue-700">Contraseña:</p>
               <input
                 type="password"
                 required
                 value={contrasena}
                 onChange={(e) => setContrasena(e.target.value)}
-                className="p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-[#1e2a47] text-white placeholder:text-gray-400"
+                className="p-3 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-50 placeholder-gray-400"
                 placeholder="Ingresa tu contraseña"
               />
             </div>
 
             <button
               type="submit"
-              className="w-full p-3 mt-4 bg-blue-600 hover:bg-blue-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-3 mt-4 bg-blue-600 hover:bg-blue-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-md"
             >
               Iniciar sesión
             </button>
           </form>
 
-          <div className="mt-6 text-white text-center">
+          <div className="mt-6 text-blue-700 text-center">
             <p>¡Si no tienes cuenta, créala!</p>
             <Link to="/Register">
-              <button className="mt-2 py-2 px-6 bg-transparent border-2 border-blue-500 hover:bg-blue-500 hover:text-white text-write rounded-md transition-all duration-300">
+              <button className="mt-2 py-2 px-6 bg-transparent border-2 border-blue-500 hover:bg-blue-500 hover:text-white text-blue-700 rounded-md transition-all duration-300">
                 Crear cuenta
               </button>
             </Link>
@@ -181,4 +130,6 @@ export function Start() {
       </div>
     </div>
   );
+
+
 }

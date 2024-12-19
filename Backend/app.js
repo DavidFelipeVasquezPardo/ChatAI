@@ -1,7 +1,7 @@
 import express from "express"
 import cors from "cors"
 
-import { RegistroUserRute,LoginRute,ChatAIRute,chatsaveRute,AllChatsRute } from "./Router/Routes.js";
+import { RegistroUserRute,LoginRute,ChatAIRute,chatsaveRute,AllChatsRute,CargarChatRute,DeleteChatRute } from "./Router/Routes.js";
 
 const app = express();
 
@@ -12,5 +12,8 @@ app.use('/psicologia',LoginRute);
 app.use('/psicologia',ChatAIRute);
 app.use('/psicologia',chatsaveRute);
 app.use('/psicologia',AllChatsRute);
+app.use('/psicologia',CargarChatRute);
+app.use('/psicologia',DeleteChatRute);
+
 
 export default app;

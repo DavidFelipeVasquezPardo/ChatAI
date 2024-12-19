@@ -778,20 +778,18 @@ export function Register() {
   const currentStep = steps[step];
 
   return (
-    <div className="bg-gradient-to-b from-[#2d14ee] to-[#6241f2] w-full h-screen flex items-center justify-center">
-      <div className="flex flex-col md:flex-row items-center w-full max-w-5xl p-6 rounded-lg shadow-lg bg-[#2410bd]">
+    <div className="bg-gradient-to-b from-blue-100 to-blue-300 w-full h-screen flex items-center justify-center">
+      <div className="flex flex-col md:flex-row items-center w-full max-w-5xl p-6 rounded-lg bg-white shadow-xl">
         <div className="flex flex-col items-center w-full max-w-md p-6 space-y-4">
-          <h2 className="text-3xl font-semibold text-white mb-6">
-            Registro de Usuario
-          </h2>
-
+          <h2 className="text-3xl font-semibold text-blue-700 mb-6">Registro de Usuario</h2>
+  
           <form
-            className="text-white flex flex-col space-y-4 w-full"
+            className="text-gray-700 flex flex-col space-y-4 w-full"
             onSubmit={handleSubmit}
             onKeyDown={handleKeyDown}
           >
             <div className="flex flex-col space-y-2">
-              <label htmlFor={currentStep.name} className="text-gray-300">
+              <label htmlFor={currentStep.name} className="font-medium text-blue-700">
                 {currentStep.label}
               </label>
               {(currentStep.type === "text" ||
@@ -806,7 +804,7 @@ export function Register() {
                   value={formData[currentStep.name]}
                   onChange={handleChange}
                   required
-                  className="p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-[#ffffff] text-black placeholder:text-gray-800 lg:felx-row"
+                  className="p-3 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-50 placeholder-gray-400"
                   placeholder={`Ingresa tu ${currentStep.label?.toLowerCase()}`}
                 />
               )}
@@ -815,7 +813,7 @@ export function Register() {
                   name={currentStep.name}
                   value={formData[currentStep.name] || ""}
                   onChange={handleChange}
-                  className="p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-[#ffffff] text-black placeholder:text-gray-800 lg:felx-row"
+                  className="p-3 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-50 placeholder-gray-400"
                 >
                   <option value="">Selecciona una opción</option>
                   {currentStep.options?.map((option, index) => (
@@ -830,17 +828,15 @@ export function Register() {
                   {currentStep.options?.map((option, index) => (
                     <label
                       key={index}
-                      className="flex items-center space-x-2 text-gray-300"
+                      className="flex items-center space-x-2 text-gray-700"
                     >
                       <input
                         type="checkbox"
                         name={currentStep.name}
                         value={option.value}
-                        checked={formData[currentStep.name]?.includes(
-                          option.value
-                        )}
+                        checked={formData[currentStep.name]?.includes(option.value)}
                         onChange={handleChange}
-                        className="h-5 w-5 checkbox"
+                        className="h-5 w-5 border-gray-300 focus:ring-2 focus:ring-blue-500"
                       />
                       <span>{option.label}</span>
                     </label>
@@ -848,13 +844,13 @@ export function Register() {
                 </div>
               )}
             </div>
-
+  
             <div className="flex justify-between">
               {step > 0 && (
                 <button
                   type="button"
                   onClick={prevStep}
-                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-md"
                 >
                   Anterior
                 </button>
@@ -863,42 +859,33 @@ export function Register() {
                 <button
                   type="button"
                   onClick={nextStep}
-                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-md"
                 >
                   Siguiente
                 </button>
               ) : (
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                  onClick={handleSubmit}
+                  className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 shadow-md"
                 >
                   Registrar
                 </button>
               )}
             </div>
           </form>
-
-          {response && <p className="text-yellow-300 mt-4">{response}</p>}
+  
+          {response && <p className="text-yellow-500 mt-4">{response}</p>}
         </div>
-
-        <div>
-          <div className="bg-white border-2 border-black shadow-lg rounded-lg p-4 relative mb-5">
-            <label htmlFor={currentStep.name} className="text-black font-bold">
-              {currentStep.comment}
-            </label>
-            <div className="absolute -bottom-4 right-20 w-8 h-8 bg-white transform rotate-45"></div>
-          </div>
-
-          <div className="hidden md:flex w-full h-full justify-center">
-            <img
-              src={BotIcon}
-              alt="Registro"
-              className="w-3/6 h-auto object-cover rounded-lg"
-            />
-          </div>
+  
+        <div className="hidden md:flex w-full h-full justify-center">
+          <img
+            src={BotIcon}
+            alt="Registro"
+            className="w-4/6 h-auto object-cover rounded-lg"
+          />
         </div>
       </div>
     </div>
   );
+  
 }
