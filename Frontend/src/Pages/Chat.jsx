@@ -7,6 +7,7 @@ import FlechaDerecha from "/FlechaDerecha.png";
 import FlechaIzquierda from "/FlechaIzquierda.png";
 import NuevoChat from "/NuevoChat.png"
 import NuecoChatAzul from "/NuevoChatAzul.png"
+import EnviarIcon from "/iconEnviar.png";
 import axios from "axios";
 import React from "react";
 
@@ -196,7 +197,7 @@ export function Chat() {
         <div
           ref={scrollDiv}
           id="chatContainer"
-          className="flex-1 overflow-y-auto space-y-6 p-8 scrollbar-thin scrollbar-thumb-blue-300 scrollbar-track-blue-100"
+          className="flex-1 overflow-y-auto space-y-6 p-8 scrollbar-thin scrollbar-thumb-blue-300 scrollbar-track-blue-100 ml-24 mr-24"
         >
           {conversacion.slice(1).map((message, index) => (
             <div
@@ -212,7 +213,7 @@ export function Chat() {
           ))}
         </div>
 
-        <div className="flex items-center bg-white bg-opacity-90 p-6 border-t border-blue-100 shadow-inner">
+        <div className="flex items-center bg-white bg-opacity-90 p-6 border-t border-blue-100 shadow-inner ml-24 mr-24 rounded-3xl mb-4">
           <input
             type="text"
             value={newMessage}
@@ -225,7 +226,11 @@ export function Chat() {
             onClick={handleSendMessage}
             className="p-4 bg-blue-600 hover:bg-blue-700 text-white rounded-r-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
           >
-            Enviar
+            <img
+              src={EnviarIcon}
+              className="w-6 mr-1"
+              alt="Enviar mensaje"
+            />
           </button>
         </div>
       </div>
