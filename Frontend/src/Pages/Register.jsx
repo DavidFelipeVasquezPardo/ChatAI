@@ -75,9 +75,9 @@ const steps = [
     name: "sexo",
     type: "select",
     Comment: "Especifica tu sexo ⚧️ y pulsa 'Siguiente'",
-    options:[
-      {label:"Hombre",value:"Hombre"},
-      {label:"Mujer",value:"Hombre"},
+    options: [
+      { label: "Hombre", value: "Hombre" },
+      { label: "Mujer", value: "Hombre" },
     ],
   },
   {
@@ -360,21 +360,21 @@ const steps = [
     type: "select",
     comment:
       "Si estudiaste o estudias una carrera, indícala aquí (escribe NA si no aplica) 📚  y pulsa 'Siguiente'",
-      options: [
-        { label: "Ingeniería de Sistemas", value: "IngenieriaDeSistemas" },
-        { label: "Ingeniería Industrial", value: "IngenieriaIndustrial" },
-        { label: "Ingeniería de Software", value: "IngenieriaDeSoftware" },
-        { label: "Administración de Empresas", value: "AdministracionDeEmpresas" },
-        { label: "Derecho", value: "Derecho" },
-        { label: "Medicina", value: "Medicina" },
-        { label: "Contaduría Pública", value: "ContaduriaPublica" },
-        { label: "Psicología", value: "Psicologia" },
-        { label: "Arquitectura", value: "Arquitectura" },
-        { label: "Comunicación Social", value: "ComunicacionSocial" },
-        { label: "Diseño Gráfico", value: "DisenoGrafico" },
-        { label: "Educación", value: "Educacion" },
-        { label: "NA", value: "NA" },
-      ],      
+    options: [
+      { label: "Ingeniería de Sistemas", value: "IngenieriaDeSistemas" },
+      { label: "Ingeniería Industrial", value: "IngenieriaIndustrial" },
+      { label: "Ingeniería de Software", value: "IngenieriaDeSoftware" },
+      { label: "Administración de Empresas", value: "AdministracionDeEmpresas" },
+      { label: "Derecho", value: "Derecho" },
+      { label: "Medicina", value: "Medicina" },
+      { label: "Contaduría Pública", value: "ContaduriaPublica" },
+      { label: "Psicología", value: "Psicologia" },
+      { label: "Arquitectura", value: "Arquitectura" },
+      { label: "Comunicación Social", value: "ComunicacionSocial" },
+      { label: "Diseño Gráfico", value: "DisenoGrafico" },
+      { label: "Educación", value: "Educacion" },
+      { label: "NA", value: "NA" },
+    ],
   },
   {
     label: "Estado de la Carrera",
@@ -738,8 +738,7 @@ export function Register() {
     // Asegurarse de que currentValue sea una cadena
     if (typeof currentValue === "string" && currentValue.trim() === "") {
       alert(
-        `El campo "${
-          currentStep?.label || currentStep?.name
+        `El campo "${currentStep?.label || currentStep?.name
         }" es obligatorio. Por favor complétalo.`
       );
       return;
@@ -748,8 +747,7 @@ export function Register() {
     // Si el valor es un array (como en el caso de los checkboxes), se verifica que tenga elementos seleccionados
     if (Array.isArray(currentValue) && currentValue.length === 0) {
       alert(
-        `El campo "${
-          currentStep?.label || currentStep?.name
+        `El campo "${currentStep?.label || currentStep?.name
         }" es obligatorio. Por favor complétalo.`
       );
       return;
@@ -782,7 +780,7 @@ export function Register() {
       <div className="flex flex-col md:flex-row items-center w-full max-w-5xl p-6 rounded-lg bg-white shadow-xl">
         <div className="flex flex-col items-center w-full max-w-md p-6 space-y-4">
           <h2 className="text-3xl font-semibold text-blue-700 mb-6">Registro de Usuario</h2>
-  
+
           <form
             className="text-gray-700 flex flex-col space-y-4 w-full"
             onSubmit={handleSubmit}
@@ -797,17 +795,17 @@ export function Register() {
                 currentStep.type === "tel" ||
                 currentStep.type === "password" ||
                 currentStep.type === "number") && (
-                <input
-                  type={currentStep.type}
-                  id={currentStep.name}
-                  name={currentStep.name}
-                  value={formData[currentStep.name]}
-                  onChange={handleChange}
-                  required
-                  className="p-3 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-50 placeholder-gray-400"
-                  placeholder={`Ingresa tu ${currentStep.label?.toLowerCase()}`}
-                />
-              )}
+                  <input
+                    type={currentStep.type}
+                    id={currentStep.name}
+                    name={currentStep.name}
+                    value={formData[currentStep.name]}
+                    onChange={handleChange}
+                    required
+                    className="p-3 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-50 placeholder-gray-400"
+                    placeholder={`Ingresa tu ${currentStep.label?.toLowerCase()}`}
+                  />
+                )}
               {currentStep.type === "select" && (
                 <select
                   name={currentStep.name}
@@ -844,7 +842,7 @@ export function Register() {
                 </div>
               )}
             </div>
-  
+
             <div className="flex justify-between">
               {step > 0 && (
                 <button
@@ -873,19 +871,24 @@ export function Register() {
               )}
             </div>
           </form>
-  
+
           {response && <p className="text-yellow-500 mt-4">{response}</p>}
         </div>
-  
-        <div className="hidden md:flex w-full h-full justify-center">
+
+        <div className="hidden md:flex flex-col w-full h-full items-center justify-center">
+          <div className="relative bg-white p-2 rounded-lg shadow-lg border-4 border-blue-600 text-blue-800 font-semibold mb-10 z-10">
+            <p className="px-8 py-6">{currentStep.comment}</p>
+            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full w-6 h-6 border-l-8 border-l-transparent border-r-8 border-r-transparent border-t-8 border-t-blue-600"></div>
+          </div>
+
           <img
             src={BotIcon}
             alt="Registro"
-            className="w-4/6 h-auto object-cover rounded-lg"
+            className="w-3/6 h-auto object-cover rounded-lg"
           />
         </div>
       </div>
     </div>
   );
-  
+
 }
