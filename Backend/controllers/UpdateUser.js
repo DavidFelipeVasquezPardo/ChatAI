@@ -28,6 +28,10 @@ export const UpdateUser = async (req, res) => {
     const hashedPassword = contrasena ? await bcrypt.hash(contrasena, 10) : undefined;
 
     try {
+
+        const formatPhoneNumber = (phoneNumber) => {
+            return phoneNumber.startsWith('57') ? phoneNumber : '57' + phoneNumber;
+        };
         // Actualizar Información de Usuario
         const updatedUser = await prisma.informacionUsuario.update({
             where: { idUsuario: idUsuario },
@@ -35,7 +39,7 @@ export const UpdateUser = async (req, res) => {
                 nombre,
                 apellido,
                 correo,
-                telefonoPersonal: `57${telefonoPersonal}`,
+                telefonoPersonal: formatPhoneNumber(telefonoPersonal),
                 telefonoFamiliar,
                 documento,
                 tipoDocumento,

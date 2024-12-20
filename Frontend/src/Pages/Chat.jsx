@@ -11,6 +11,8 @@ import EnviarIcon from "/iconEnviar.png";
 import axios from "axios";
 import React from "react";
 
+import "./Components/Css.css";
+
 import Cookies from "js-cookie";
 import { prompt } from "./Components/Prompts";
 
@@ -199,7 +201,7 @@ export function Chat() {
         <div
           ref={scrollDiv}
           id="chatContainer"
-          className="flex-1 overflow-y-auto space-y-6 p-8 scrollbar-thin scrollbar-thumb-blue-300 scrollbar-track-blue-100 ml-24 mr-24"
+          className="flex-1 overflow-y-auto space-y-6 p-8 scrollbar-thin scrollbar-thumb-blue-300 scrollbar-track-blue-100 ml-24 mr-24 scroll-hidden"
         >
           {Cookies.get("rol") && conversacion.slice(1).map((message, index) => (
             <div
