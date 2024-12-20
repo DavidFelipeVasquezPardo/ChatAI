@@ -1,7 +1,17 @@
 import express from "express";
 import cors from "cors";
 
-import { RegistroUserRute, LoginRute, ChatAIRute, chatsaveRute, AllChatsRute, CargarChatRute, DeleteChatRute, AdminConsultasUserRouter } from "./Router/Routes.js";
+import { 
+    RegistroUserRute, 
+    LoginRute, 
+    ChatAIRute, 
+    chatsaveRute, 
+    AllChatsRute, 
+    CargarChatRute, 
+    DeleteChatRute, 
+    AdminConsultasUserRute, 
+    UpdateUserRute
+} from "./Router/Routes.js";
 
 const app = express();
 
@@ -14,6 +24,7 @@ app.use('/psicologia', chatsaveRute);
 app.use('/psicologia', AllChatsRute);
 app.use('/psicologia', CargarChatRute);
 app.use('/psicologia', DeleteChatRute);
-app.use('/psicologia', AdminConsultasUserRouter);
+app.use('/psicologia', AdminConsultasUserRute);
+app.use('/psicologia', UpdateUserRute);
 
 export default app;

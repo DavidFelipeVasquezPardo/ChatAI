@@ -32,7 +32,7 @@ export const RegistroUser = async (req, res) => {
                 nombre,
                 apellido,
                 correo,
-                telefonoPersonal,
+                telefonoPersonal: 57+telefonoPersonal,
                 telefonoFamiliar,
                 documento,
                 tipoDocumento,

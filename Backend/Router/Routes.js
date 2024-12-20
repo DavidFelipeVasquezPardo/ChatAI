@@ -5,7 +5,8 @@ import chatsaveRute from './chatsaveRouter.js';
 import AllChatsRute from './AllChatsRouter.js';
 import CargarChatRute from './CargarChatRouter.js';
 import DeleteChatRute from './DeleteChatRouter.js';
-import AdminConsultasUserRouter from './AdminConsultasUserRouter.js';
+import AdminConsultasUserRute from './AdminConsultasUserRouter.js';
+import UpdateUserRute from './UpdateUserRouter.js';
 
 export {
     RegistroUserRute,
@@ -15,5 +16,6 @@ export {
     AllChatsRute,
     CargarChatRute,
     DeleteChatRute,
-    AdminConsultasUserRouter
+    AdminConsultasUserRute,
+    UpdateUserRute,
 };

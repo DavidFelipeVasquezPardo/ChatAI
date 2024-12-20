@@ -153,7 +153,7 @@ model informacionUsuario {
   telefonoFamiliar String
   documento        String  @unique
   tipoDocumento    String  @default("CC")
-  testActual       String? // Tests
+  testActual       String? @default("ghq12")
 
   // Relación con ghq12
   ghq12 ghq12?
@@ -183,7 +183,7 @@ model informacionUsuario {
 //Asistente Psicologico:------------------------------------------------------------------------------------------------------------------------------------------------
 model chats {
   idchat       String   @id @unique @default(uuid())
-  idUsuario    String
+  idUsuario    String   @unique
   fechaHora    DateTime @default(now())
   conversacion Json
 
@@ -194,7 +194,7 @@ model chats {
 
 model credencial {
   idCredencial String @id @unique @default(uuid())
-  idUsuario    String
+  idUsuario    String     @unique
   usuario      String
   contrasena   String
   rol          String @default("user")
@@ -207,7 +207,7 @@ model credencial {
 //Sociodemografico:
 model informacionPersonal {
   idinformacionPersonal String @id @unique @default(uuid())
-  idUsuario             String
+  idUsuario             String     @unique
 
   edad          Int
   sexo          String
@@ -229,7 +229,7 @@ model informacionPersonal {
 
 model condicionesvivienda {
   idcondicionesvivienda String @id @unique @default(uuid())
-  idUsuario             String
+  idUsuario             String     @unique
   hacinamiento          String
   violencia             String
   servicios             Json
@@ -243,7 +243,7 @@ model condicionesvivienda {
 
 model educacion {
   ideducacion      String @id @unique @default(uuid())
-  idUsuario        String
+  idUsuario        String     @unique
   tipocolegio      String
   nivelescolaridad String
   carrera          String
@@ -259,7 +259,7 @@ model educacion {
 
 model situacionlaboral {
   idsituacionlaboral String @id @unique @default(uuid())
-  idUsuario          String
+  idUsuario          String     @unique
   situacion          String
   ingresos           String
   sector             String
@@ -273,7 +273,7 @@ model situacionlaboral {
 
 model salud {
   idsalud         String @id @unique @default(uuid())
-  idUsuario       String
+  idUsuario       String     @unique
   enfermecronica  String
   discapacidad    String
   suspsicoactivas String

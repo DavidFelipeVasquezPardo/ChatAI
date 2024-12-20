@@ -21,6 +21,7 @@ export function Admin() {
     const handleSearch = async () => {
         const params = {};
         if (search) {
+            params.idUsuario = search;
             params.correo = search;
             params.documento = search;
         }
@@ -84,7 +85,7 @@ export function Admin() {
                 <h2 className="text-2xl font-bold text-blue-600 mb-6 pb-4 border-b">Información Usuario</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {Object.entries(data)
-                    .filter(([key]) => !Array.isArray(data[key]))
+                    .filter(([key, value]) => typeof value !== 'object')
                     .map(([key, value]) => (
                       <div key={key} className="flex flex-col">
                         <span className="text-sm font-medium text-slate-500 mb-1">{key}</span>

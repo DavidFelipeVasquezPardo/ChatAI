@@ -53,7 +53,7 @@ export const prompt = {
   const steps = [
     {
       label: "⚠ Tiempo estimado de 3 minutos a 5 minutos",
-      comment: "¡ Hola 🖐 ! si deseas empezar el registro pulsa siguiente",
+      comment: "¡ Hola 🖐 ! si deseas empezar pulsa siguiente",
     },
   
     // Datos personales
@@ -137,10 +137,10 @@ export const prompt = {
       label: "sexo",
       name: "sexo",
       type: "select",
-      Comment: "Especifica tu sexo ⚧️ y pulsa 'Siguiente'",
+      comment: "Especifica tu sexo ⚧️ y pulsa 'Siguiente'",
       options: [
         { label: "Hombre", value: "Hombre" },
-        { label: "Mujer", value: "Hombre" },
+        { label: "Mujer", value: "Mujer" },
       ],
     },
     {

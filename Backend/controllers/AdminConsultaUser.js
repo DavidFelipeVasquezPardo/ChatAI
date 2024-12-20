@@ -3,9 +3,9 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export const ConsultaUser = async (req, res) => {
-    const { correo, documento } = req.query;
+    const { correo, documento,idUsuario } = req.query;
 
-    if (!correo && !documento) {
+    if (!correo && !documento && !idUsuario) {
         return res.status(400).json({ message: 'Falta el parámetro de búsqueda' });
     }
 
@@ -13,6 +13,7 @@ export const ConsultaUser = async (req, res) => {
         const user = await prisma.informacionUsuario.findFirst({
             where: {
                 OR: [
+                    idUsuario ? { idUsuario: idUsuario} : undefined,
                     correo ? { correo: correo } : undefined,
                     documento ? { documento: documento } : undefined,
                 ].filter(Boolean),
@@ -23,11 +24,12 @@ export const ConsultaUser = async (req, res) => {
                 educacion: true,
                 situacionlaboral: true,
                 salud: true,
-                chats: true,
-                citas: true,
-                historialAgendamiento: true,
-                ghq12: true,
-                tests: true,
+                chats: false,
+                citas: false,
+                historialAgendamiento: false,
+                ghq12: false,
+                tests: false,
+                credenciales: true,
             },
         });
 

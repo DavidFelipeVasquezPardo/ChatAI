@@ -72,9 +72,11 @@ export function Chat() {
 
       let enviarhistorial = JSON.parse(localStorage.getItem("conversacion"));
 
+      const idUser = Cookies.get("idUsuario");
+
       const response = await axios.post(
         "http://localhost:3000/psicologia/ChatAI",
-        { enviarhistorial }
+        { enviarhistorial,idUser }
       );
       const assistantMessage = response.data.message;
 
@@ -146,52 +148,53 @@ export function Chat() {
   return (
     <div className="bg-blue-50 w-full h-screen flex">
       {/* Sidebar */}
-      <div
-        className={`bg-gradient-to-b from-blue-500 to-blue-700 duration-300 flex flex-col justify-around ${isSidebarOpen ? "w-80" : "w-0"
-          } h-screen space-y-6 text-white shadow-xl`}
-      >
-        <div className="h-20 flex flex-row items-start">
-          <button
-            onClick={handleToggleSidebar}
-            className={`transform duration-300 ${isSidebarOpen ? "ml-4 mt-4 absolute" : "ml-4 mt-4 absolute"
-              }`}
-          >
-            <img
-              src={isSidebarOpen ? FlechaIzquierda : FlechaDerecha}
-              className="h-8"
-              alt="Toggle Sidebar"
-            />
-          </button>
-          <button
-            onClick={NewChat}
-            className={`transform duration-300 ${isSidebarOpen ? "ml-64 mt-3 absolute" : "ml-14 mt-3 absolute"
-              }`}
-          >
-            <img src={isSidebarOpen ? NuevoChat : NuecoChatAzul} className="h-10" />
-          </button>
+        <div
+          className={`bg-gradient-to-b from-blue-500 to-blue-700 duration-300 flex flex-col justify-around ${isSidebarOpen ? "w-80" : "w-0"
+            } h-screen space-y-6 text-white shadow-xl`}
+        >
+          <div className="h-20 flex flex-row items-start">
+            <button
+          onClick={handleToggleSidebar}
+          className={`transform duration-300 ${isSidebarOpen ? "ml-4 mt-4 absolute" : "ml-4 mt-4 absolute"
+            }`}
+            >
+          <img
+            src={isSidebarOpen ? FlechaIzquierda : FlechaDerecha}
+            className="h-8"
+            alt="Toggle Sidebar"
+          />
+            </button>
+            <button
+          onClick={NewChat}
+          className={`transform duration-300 ${isSidebarOpen ? "ml-64 mt-3 absolute" : "ml-14 mt-3 absolute"
+            }`}
+            >
+          <img src={isSidebarOpen ? NuevoChat : NuecoChatAzul} className="h-10" />
+            </button>
+          </div>
+
+          <div className="p-6 max-w-96 h-full overflow-y-auto scrollbar-thin scrollbar-thumb-blue-400 scrollbar-track-blue-600">
+            <Chatcontainer key={refreshKey} onChatLoaded={handleChatUpdate}></Chatcontainer>
+          </div>
+
+          <div className="flex flex-col items-center mt-auto p-6 space-y-4 h-52 bg-blue-900 bg-opacity-30">
+            <p className="text-lg font-semibold text-blue-50">{username}</p>
+            <button
+          onClick={handleLogout}
+          className="w-full p-3 bg-blue-400 hover:bg-blue-500 text-white rounded-lg shadow-lg transition-colors duration-200"
+            >
+          Cerrar sesión
+            </button>
+            <button
+          onClick={() => navigate("/EditDatos")}
+          className={`w-full p-3 bg-blue-400 hover:bg-blue-500 text-white rounded-lg shadow-lg transition-colors duration-200" ${isSidebarOpen ? "w-full p-3" : "w-2 h-2"}`}
+            >
+          Editar Datos
+            </button>
+          </div>
         </div>
 
-        <div className="p-6 max-w-96 h-full overflow-y-auto scrollbar-thin scrollbar-thumb-blue-400 scrollbar-track-blue-600">
-          <Chatcontainer key={refreshKey} onChatLoaded={handleChatUpdate}></Chatcontainer>
-        </div>
-
-        <div className="flex flex-col items-center mt-auto p-6 space-y-4 h-52 bg-blue-900 bg-opacity-30">
-          <p className="text-lg font-semibold text-blue-50">{username}</p>
-          <button
-            onClick={handleLogout}
-            className="w-full p-3 bg-blue-400 hover:bg-blue-500 text-white rounded-lg shadow-lg transition-colors duration-200"
-          >
-            Cerrar sesión
-          </button>
-          <button
-            className={`w-full p-3 bg-blue-400 hover:bg-blue-500 text-white rounded-lg shadow-lg transition-colors duration-200" ${isSidebarOpen ? "w-full p-3" : "w-2 h-2"}`}
-          >
-            Editar Datos
-          </button>
-        </div>
-      </div>
-
-      {/* Chat content */}
+        {/* Chat content */}
       <div className="flex-1 flex flex-col justify-between bg-gradient-to-br from-blue-50 to-blue-200">
         <div
           ref={scrollDiv}
