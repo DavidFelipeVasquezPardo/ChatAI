@@ -27,15 +27,19 @@ export const RegistroUser = async (req, res) => {
 
     try {
 
+        const formatPhoneNumber = (phoneNumber) => {
+            return phoneNumber.startsWith('57') ? phoneNumber : '57' + phoneNumber;
+        };
+
         const newUser = await prisma.informacionUsuario.create({
             data: {
-                nombre,
-                apellido,
-                correo,
-                telefonoPersonal: 57+telefonoPersonal,
-                telefonoFamiliar,
-                documento,
-                tipoDocumento,
+            nombre,
+            apellido,
+            correo,
+            telefonoPersonal: formatPhoneNumber(telefonoPersonal),
+            telefonoFamiliar,
+            documento,
+            tipoDocumento,
             }
         });
 

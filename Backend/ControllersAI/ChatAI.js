@@ -26,7 +26,7 @@ async function llamartest(idUser){
             "message":"Escribe comenzar para proceder"
         });
 
-        const answare = "Claro mira tu whatsapp 🤗";
+        const answare = "Gracias por aceptar realizar el test. Te lo enviaré por WhatsApp para garantizar tu confidencialidad y comodidad. 🤗";
         return answare;
 
     } catch (error) {
@@ -38,7 +38,7 @@ const tools = [{
     "type": "function",
     function: {
         name: 'llamartest', 
-        description: 'Si el usuario da su nombre y tambien indica signos de depresion debera realizar este test', 
+        description: 'Si el usuario proporciona su nombre y muestra indicios de estrés, ansiedad o depresión, preséntale este test de bienestar emocional como una herramienta para apoyarlo.',
         parameters: {
             type: 'object', 
             properties: {

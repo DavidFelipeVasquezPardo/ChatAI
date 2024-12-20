@@ -38,6 +38,7 @@ CREATE TABLE `credencial` (
     `rol` VARCHAR(191) NOT NULL DEFAULT 'user',
 
     UNIQUE INDEX `credencial_idCredencial_key`(`idCredencial`),
+    UNIQUE INDEX `credencial_idUsuario_key`(`idUsuario`),
     PRIMARY KEY (`idCredencial`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -59,6 +60,7 @@ CREATE TABLE `informacionPersonal` (
     `etnico` VARCHAR(191) NOT NULL,
 
     UNIQUE INDEX `informacionPersonal_idinformacionPersonal_key`(`idinformacionPersonal`),
+    UNIQUE INDEX `informacionPersonal_idUsuario_key`(`idUsuario`),
     PRIMARY KEY (`idinformacionPersonal`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -73,6 +75,7 @@ CREATE TABLE `condicionesvivienda` (
     `tipozona` VARCHAR(191) NOT NULL,
 
     UNIQUE INDEX `condicionesvivienda_idcondicionesvivienda_key`(`idcondicionesvivienda`),
+    UNIQUE INDEX `condicionesvivienda_idUsuario_key`(`idUsuario`),
     PRIMARY KEY (`idcondicionesvivienda`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -89,6 +92,7 @@ CREATE TABLE `educacion` (
     `nivelingles` VARCHAR(191) NOT NULL,
 
     UNIQUE INDEX `educacion_ideducacion_key`(`ideducacion`),
+    UNIQUE INDEX `educacion_idUsuario_key`(`idUsuario`),
     PRIMARY KEY (`ideducacion`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -103,6 +107,7 @@ CREATE TABLE `situacionlaboral` (
     `ascenso` VARCHAR(191) NOT NULL,
 
     UNIQUE INDEX `situacionlaboral_idsituacionlaboral_key`(`idsituacionlaboral`),
+    UNIQUE INDEX `situacionlaboral_idUsuario_key`(`idUsuario`),
     PRIMARY KEY (`idsituacionlaboral`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -120,6 +125,7 @@ CREATE TABLE `salud` (
     `asispsicologo` VARCHAR(191) NOT NULL,
 
     UNIQUE INDEX `salud_idsalud_key`(`idsalud`),
+    UNIQUE INDEX `salud_idUsuario_key`(`idUsuario`),
     PRIMARY KEY (`idsalud`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 

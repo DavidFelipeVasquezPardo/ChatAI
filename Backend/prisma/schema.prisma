@@ -183,7 +183,7 @@ model informacionUsuario {
 //Asistente Psicologico:------------------------------------------------------------------------------------------------------------------------------------------------
 model chats {
   idchat       String   @id @unique @default(uuid())
-  idUsuario    String   @unique
+  idUsuario    String   
   fechaHora    DateTime @default(now())
   conversacion Json
 
